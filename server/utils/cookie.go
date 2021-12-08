@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/authorizerdev/authorizer/server/constants"
@@ -10,7 +11,9 @@ import (
 func SetCookie(gc *gin.Context, token string) {
 	secure := true
 	httpOnly := true
-	origin := constants.APP_URL
+	origin := gc.Request.Header.Get("Origin")
+
+	log.Println("=> origin host:", gc.Request.Header.Get("Origin"))
 
 	host := GetHostName(constants.AUTHORIZER_URL)
 	originHost := GetHostName(origin)
@@ -32,7 +35,7 @@ func GetCookie(gc *gin.Context) (string, error) {
 func DeleteCookie(gc *gin.Context) {
 	secure := true
 	httpOnly := true
-	origin := constants.APP_URL
+	origin := gc.Request.Header.Get("Origin")
 
 	if !constants.IS_PROD {
 		secure = false
