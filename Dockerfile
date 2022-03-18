@@ -5,7 +5,7 @@ COPY Makefile .
 
 ARG VERSION="latest"
 ENV VERSION="$VERSION"
-
+RUN go env -w GOPROXY=https://goproxy.cn
 RUN echo "$VERSION"
 RUN apk add build-base nodejs &&\
     make clean && make && \
